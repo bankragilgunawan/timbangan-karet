@@ -1,6 +1,7 @@
 # 📋 Nota Karet Digital Pro
 **Sistem Rekam Timbangan & Manajemen Nota Digital**
-(https://img.shields.io/badge/gun-ORIGINAL_PROJECT-003366?style=for-the-badge&logo=appveyor&logoColor=white&labelColor=00529b
+
+![Gun Original Project](https://img.shields.io/badge/gun-ORIGINAL_PROJECT-003366?style=for-the-badge&logo=appveyor&logoColor=white&labelColor=00529b)
 
 [![Version](https://img.shields.io/badge/version-1.0.0-emerald)](https://ragilgunawan.my.id)
 [![Tech](https://img.shields.io/badge/Tech-HTML5%20%7C%20TailwindCSS%20%7C%20JS-blue)](https://tailwindcss.com)
@@ -51,4 +52,9 @@
 ---
 > *Aplikasi ini dikembangkan untuk mendigitalisasi sektor pertanian lokal agar lebih transparan dan efisien.*
 
-<img src="cuan-pulsa/logo.svg" width="300" alt="Gun Original Project Logo">
+---
+
+<div align="center">
+  <img src="https://ragilgunawan.my.id/cuan-pulsa/logo.svg" width="200" alt="Gun Original Project Logo">
+  <p><i>Original Project by Gun</i></p>
+</div>
