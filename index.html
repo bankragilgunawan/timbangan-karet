@@ -8,8 +8,8 @@
 /* Daftarkan Font TTF Lokal */
 @font-face {
     font-family: 'Plus Jakarta Sans';
-    src: url('PlusJakartaSans-VariableItalic.ttf') format('truetype');
-    font-weight: normal; /* Rentang dari Normal ke Extra Bold */
+    src: url('fonts/jkt2.ttf') format('truetype');
+    font-weight: 400 800; /* Rentang dari Normal ke Extra Bold */
     font-style: normal;
     font-display: swap;
 }
@@ -156,24 +156,70 @@ body {
         }
         .btn-save:active { transform: scale(0.98); }
 
-        /* STATS BOX */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            padding: 0 10px;
-            margin: 30px 0 20px;
-        }
-        .stat-card {
-            background: white;
-            padding: 12px 8px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .stat-label { font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
-        .stat-val { font-size: 12px; font-weight: 800; margin-top: 4px; }
+/* STATS BOX MODERN */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0 20px;
+    margin: 25px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 15px 10px;
+    border-radius: 24px;
+    text-align: center;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.stat-card:active { transform: scale(0.95); }
+
+/* Dekorasi Ikon Kecil di Pojok Kartu */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+.stat-hari::after { background: var(--primary); }
+.stat-minggu::after { background: #2563eb; }
+.stat-bulan::after { background: #7c3aed; }
+
+.stat-label { 
+    font-size: 10px; 
+    font-weight: 800; 
+    color: #94a3b8; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.stat-val { 
+    font-size: 14px; 
+    font-weight: 900; 
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.unit-kg {
+    font-size: 9px;
+    color: #94a3b8;
+    font-weight: 600;
+}
 
         /* LIST NOTA */
         main { padding: 0 24px 24px; }
@@ -405,31 +451,164 @@ body {
 
     <div id="toast">Nota Berhasil Disimpan! ✅</div>
 
-    <div class="container">
-<header style="background: white; padding: 25px 20px 35px; border-radius: 0 0 35px 35px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 10px;">
-    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+<div class="container">
+    <header style="background: white; padding: 25px 20px 35px; border-radius: 0 0 35px 35px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            
+            <div style="flex: 1;">
+                <h1 style="font-size: 32px; font-weight: 800; color: #1e293b; line-height: 1.1; margin: 0;">
+                    Nota Karet
+                </h1>
+                <p style="font-size: 9px; color: #10b981; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">
+                    Catatan Digital
+                </p>
+            </div>
+
+            <div onclick="bukaPanduan()" style="width: 110px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; overflow: visible;">
+                    <text x="50%" y="140" text-anchor="middle" font-family="'Brush Script MT', cursive" font-weight="900" font-size="150" fill="#059669">Gun</text>
+                    <text x="50%" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="20" fill="#FF8C00" style="letter-spacing: 2px; text-transform: uppercase;">Original Project</text>
+                </svg>
+                </div>
+        </div>
+    </header>
+
+<div id="halamanPanduan" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 9999; overflow-y: auto; font-family: 'Segoe UI', Roboto, sans-serif;">
+    <div style="padding: 15px 20px; background: white; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="background: #059669; color: white; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold;">?</div>
+            <h2 style="margin: 0; font-size: 1.1rem; color: #1e293b;">Panduan Penggunaan</h2>
+        </div>
+        <button onclick="tutupPanduan()" style="
+    background: #fee2e2; 
+    color: #ef4444; 
+    border: none; 
+    width: 31px; 
+    height: 31px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: 0.2s;
+">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+</button>
+    </div>
+
+    <div style="padding: 25px; max-width: 500px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h3 style="color: #0f172a; margin-bottom: 5px; font-size: 1.5rem;">Timbangan Karet</h3>
+            <p style="color: #64748b; font-size: 14px; margin-top: 0;">Ikuti langkah di bawah untuk hasil akurat</p>
+        </div>
+
+<div style="background: white; padding: 25px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
         
-        <div style="flex: 1;">
-            <h1 style="font-size: 32px; font-weight: 800; color: #1e293b; line-height: 1.1; margin: 0;">
-                Nota Karet
-            </h1>
-            <p style="font-size: 9px; color: #10b981; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">
-                Catatan Digital
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; transition: 0.3s; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">01</div>
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">Pastikan semua kolom input sudah <strong style="color: #1e293b;">kosong</strong> sebelum mulai mencatat baru.</p>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">02</div>
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">Masukkan <strong style="color: #1e293b;">Nama Petani, Harga,</strong> dan <strong style="color: #1e293b;">Berat</strong> pada kolom yang tersedia.</p>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">03</div>
+            <div style="margin: 0;">
+                <p style="margin: 0 0 8px 0; color: #475569; font-size: 14px; font-weight: 600;">Aturan Input Berat:</p>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 6px;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b;">
+                        <span style="width: 6px; height: 6px; background: #cbd5e1; border-radius: 50%;"></span> 1-2 Timbangan: Isi kolom langsung
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b;">
+                        <span style="width: 6px; height: 6px; background: #cbd5e1; border-radius: 50%;"></span> Lebih dari 2: Klik tombol <strong style="color: #059669; background: #ecfdf5; padding: 2px 6px; border-radius: 4px;">+</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">04</div>
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">Klik tombol <strong style="color: white; background: #059669; padding: 4px 10px; border-radius: 8px; font-size: 12px;">Simpan Nota</strong> untuk memproses data.</p>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 15px; border-radius: 18px; background: #ecfdf5; border: 1px dashed #10b981;">
+            <div style="background: #10b981; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px;">05</div>
+            <p style="margin: 0; color: #065f46; font-size: 14px; line-height: 1.5; font-weight: 500;">Selesai! <strong style="text-decoration: underline;">Total Berat & Uang</strong> akan muncul di daftar nota secara otomatis.</p>
+        </div>
+
+    </div>
+</div>
+
+        <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 12px; margin-top: 25px; display: flex; gap: 12px; align-items: flex-start;">
+            <div style="margin-top: 2px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#92400e" stroke-width="2"/>
+                    <path d="M12 16V12" stroke="#92400e" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 8H12.01" stroke="#92400e" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <p style="margin: 0; font-size: 13px; color: #92400e; line-height: 1.5;">
+                <strong>Tips:</strong> Aplikasi ini mendukung mode offline. Jangan <strong>refresh browser</strong> agar data yang sedang diinput tidak hilang.
             </p>
         </div>
 
-        <div style="flex: 1.1; max-width: 170px; display: flex; align-items: center;">
-            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; overflow: visible;">
-                <text x="50%" y="90" text-anchor="middle" font-family="'Brush Script MT', cursive" font-weight="900" font-size="100" fill="#059669">Gun</text>
-                
-                <text x="50%" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="20" fill="#FF8C00" style="letter-spacing: 2px; text-transform: uppercase;">Original Project</text>
-            </svg>
+        <div style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px; margin-top: 25px;">
+            <h4 style="margin: 0 0 10px 0; color: #475569; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Disclaimer & Lisensi
+            </h4>
+            <p style="margin: 0; font-size: 12px; color: #64748b; line-height: 1.6;">
+                Aplikasi ini adalah versi gratis dengan atribut <strong>Gun Original Project</strong>. Dilarang keras memodifikasi atau menghapus label hak cipta tanpa izin tertulis.
+            </p>
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1;">
+                <p style="margin: 0 0 8px 0; font-size: 11px; color: #059669; font-weight: bold; text-transform: uppercase;">Hapus logo & watermark?</p>
+                <a href="https://wa.me/62816308466?text=Halo%20Gun%20Project,%20saya%20ingin%20beli%20lisensi%20untuk%20menghapus%20logo%20di%20aplikasi%20Nota%20Karet" 
+                   target="_blank" 
+                   style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #059669; color: white; text-decoration: none; padding: 10px; border-radius: 10px; font-weight: bold; font-size: 13px;">
+                    Hubungi Admin (Lisensi)
+                </a>
+            </div>
         </div>
         
+        <div style="margin-top: 50px; text-align: center; padding-bottom: 20px;">
+    <div style="width: 120px; margin: 0 auto; opacity: 0.9;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; overflow: visible;">
+            <text x="50%" y="90" text-anchor="middle" font-family="'Brush Script MT', cursive" font-weight="900" font-size="100" fill="#059669">Gun</text>
+            <text x="50%" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="#FF8C00" style="letter-spacing: 2px; text-transform: uppercase;">Original Project</text>
+        </svg>
     </div>
-</header>
 
-            <div class="form-container">
+    <div style="margin-top: 15px; display: inline-block;">
+        <span style="
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 10px; 
+            font-weight: 800; 
+            color: #64748b; 
+            background: #f1f5f9; 
+            padding: 4px 12px; 
+            border-radius: 50px; 
+            border: 1px solid #e2e8f0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        ">
+            Build v1.1.3-stable
+        </span>
+    </div>
+    
+    <p style="font-size: 9px; color: #cbd5e1; margin-top: 8px; font-weight: 600; letter-spacing: 0.5px;">
+        &copy; 2026 Gun Original Project
+    </p>
+</div>
+</div>
+</div>            <div class="form-container">
              <div style="padding: 10px 10px; margin-top: 1px;">
     
     <div style="background: white; padding: 25px 20px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
@@ -465,19 +644,30 @@ body {
             </div>
 
         <div class="stats-grid">
-            <div class="stat-card">
-                <p class="stat-label">Hari Ini</p>
-                <p id="stat-berat-hari" class="stat-val" style="color: var(--primary);">0 kg</p>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Minggu Ini</p>
-                <p id="stat-berat-minggu" class="stat-val" style="color: #2563eb;">0 kg</p>
-            </div>
-            <div class="stat-card">
-                <p class="stat-label">Bulan Ini</p>
-                <p id="stat-berat-bulan" class="stat-val" style="color: #7c3aed;">0 kg</p>
-            </div>
+    <div class="stat-card stat-hari">
+        <span class="stat-label">Hari Ini</span>
+        <div class="stat-val">
+            <span id="stat-berat-hari" style="color: var(--primary);">0</span>
+            <span class="unit-kg">KG</span>
         </div>
+    </div>
+    
+    <div class="stat-card stat-minggu">
+        <span class="stat-label">Minggu Ini</span>
+        <div class="stat-val">
+            <span id="stat-berat-minggu" style="color: #2563eb;">0</span>
+            <span class="unit-kg">KG</span>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-bulan">
+        <span class="stat-label">Bulan Ini</span>
+        <div class="stat-val">
+            <span id="stat-berat-bulan" style="color: #7c3aed;">0</span>
+            <span class="unit-kg">KG</span>
+        </div>
+    </div>
+</div>
 
         <main>
             <div class="search-box">
@@ -525,15 +715,15 @@ function simpanNota() {
         return; 
     }
 
-    // Objek Nota Baru
+    // Objek Nota Baru (SUDAH DIPERBAIKI)
     const nota = {
         id: Date.now(),
         tgl: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }),
         nama: nama,
         harga: harga,
         rincian: rincianArr.join(' + '),
-        totalBerat: totalBerat.toFixed(2),
-        totalBayar: totalBerat * harga
+        totalBerat: Math.round(totalBerat), // Pakai koma di sini
+        totalBayar: Math.round(totalBerat * harga) // Perkalian di dalam pembulatan
     };
 
     // Tambah ke database (paling atas)
@@ -561,30 +751,35 @@ function tampilkanData(data) {
     wadah.innerHTML = '';
     data.forEach(n => {
         const card = document.createElement('div');
-        card.className = 'nota-card'; // Menggunakan class CSS Vanilla
-card.innerHTML = `
+        card.className = 'nota-card';
+        card.innerHTML = `
     <div class="nota-header">
         <div class="nota-date">${n.tgl}</div>
-        <div style="display:flex; gap:12px; align-items:center;">
-            <button onclick="tampilStruk(${n.id})" style="border:none; background:none; cursor:pointer; font-size:16px;" title="Lihat Struk"><button onclick="tampilStruk(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px; transition:0.2s;" title="Lihat Struk">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div style="display:flex; gap:8px; align-items:center;">
+            <button onclick="tampilStruk(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px;" title="Lihat Struk">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
             </button>
             
-            <button onclick="editNota(${n.id})" style="border:none; background:none; cursor:pointer; font-size:16px; color:#2563eb;" title="Edit Nota"><button onclick="editNota(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px; transition:0.2s;" title="Edit Nota">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button onclick="editNota(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px;" title="Edit Nota">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
             </button>
+
+            <button onclick="bagikanNota(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px;" title="Bagikan">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                    <polyline points="16 6 12 2 8 6"></polyline>
+                    <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+            </button>
             
-            <button onclick="hapusNota(${n.id})" style="border:none; background:none; cursor:pointer; font-size:16px; color:#ef4444;" title="Hapus"><button onclick="hapusNota(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px; transition:0.2s;" title="Hapus">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <button onclick="hapusNota(${n.id})" style="border:none; background:none; cursor:pointer; padding:4px;" title="Hapus">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
@@ -634,30 +829,43 @@ function cariNota() {
     tampilkanData(hasil);
 }
 
-/* ====== UPDATE STATISTIK ====== */
+/* ====== UPDATE STATISTIK LENGKAP (HARI, MINGGU, BULAN) ====== */
 function updateStatistik() {
     const sekarang = new Date();
     const hariIni = sekarang.toDateString();
     
+    // Hitung awal minggu (Senin)
+    const awalMinggu = new Date(sekarang);
+    awalMinggu.setDate(sekarang.getDate() - (sekarang.getDay() === 0 ? 6 : sekarang.getDay() - 1));
+    awalMinggu.setHours(0,0,0,0);
+
     let stats = { hari: 0, minggu: 0, bulan: 0 };
 
     database.forEach(n => {
+        // Karena n.id adalah timestamp (angka), kita buat objek Date
         const tglNota = new Date(n.id);
-        if (tglNota.toDateString() === hariIni) stats.hari += parseFloat(n.totalBerat);
-        // ... Logika minggu & bulan bisa ditambah di sini ...
+        const berat = parseFloat(n.totalBerat) || 0;
+
+        // 1. Cek Hari Ini
+        if (tglNota.toDateString() === hariIni) {
+            stats.hari += berat;
+        }
+
+        // 2. Cek Minggu Ini (7 hari terakhir dari hari senin)
+        if (tglNota >= awalMinggu) {
+            stats.minggu += berat;
+        }
+
+        // 3. Cek Bulan Ini (Misal: April 2026)
+        if (tglNota.getMonth() === sekarang.getMonth() && tglNota.getFullYear() === sekarang.getFullYear()) {
+            stats.bulan += berat;
+        }
     });
 
-    document.getElementById('stat-berat-hari').innerText = stats.hari.toFixed(1) + " kg";
-}
-
-// Tambahkan fungsi hapus sederhana
-function hapusNota(id) {
-    if(confirm("Hapus nota ini?")) {
-        database = database.filter(n => n.id !== id);
-        localStorage.setItem('database_karet_final', JSON.stringify(database));
-        tampilkanData(database);
-        showToast("Nota Dihapus 🗑️");
-    }
+    // Cukup tampilkan angkanya saja, satuannya sudah otomatis dari HTML
+    document.getElementById('stat-berat-hari').innerText = Math.round(stats.hari);
+    document.getElementById('stat-berat-minggu').innerText = Math.round(stats.minggu);
+    document.getElementById('stat-berat-bulan').innerText = Math.round(stats.bulan);
 }
 
 /* ====== FUNGSI TAMPIL MODAL STRUK DENGAN WATERMARK ====== */
@@ -680,7 +888,7 @@ function tampilStruk(id) {
         rincianHtml += `
             <div style="display:flex; justify-content:space-between; font-family:monospace; margin-bottom:2px; position:relative; z-index:2;">
                 <span style="color:#888;">${i + 1}.</span>
-                <span style="font-weight:bold;">${parseFloat(b).toFixed(2)} Kg</span>
+                <span style="font-weight:bold;">${parseFloat(b)} Kg</span>
             </div>`;
     });
 
@@ -742,7 +950,8 @@ function tampilStruk(id) {
                     Jasa Pembuatan<br>
                     <small style="font-size:8px; opacity:0.6;">Aplikasi, Website, Toko Online</br>
                     Undangan Digital dll</br>
-                    <b>Wa 082121218466</b></small>
+                    <span><b>Wa 0816 308 466</b></small>
+                    </span>
                 </div>
             </div>
         </div>
@@ -754,6 +963,40 @@ function tampilStruk(id) {
     // Berikan ID ke tombol cetak
     const btnCetak = document.getElementById('btn-cetak-struk');
     if(btnCetak) btnCetak.setAttribute('data-id', id);
+}
+
+/* ====== FUNGSI BAGIKAN NOTA ====== */
+function bagikanNota(id) {
+    const n = database.find(nota => nota.id === id);
+    if (!n) return;
+
+    const pesan = `*NOTA KARET DIGITAL*%0A` +
+        `----------------------------%0A` +
+        `*Nama:* ${n.nama.toUpperCase()}%0A` +
+        `*Tanggal:* ${n.tgl}%0A` +
+        `----------------------------%0A` +
+        `*Rincian Berat:*%0A${n.rincian.replace(/\+/g, '%0A')}%0A` +
+        `----------------------------%0A` +
+        `*Total Berat:* ${n.totalBerat} Kg%0A` +
+        `*Harga/Kg:* Rp ${n.harga.toLocaleString('id-ID')}%0A` +
+        `*TOTAL BAYAR:* *Rp ${n.totalBayar.toLocaleString('id-ID')}*%0A` +
+        `----------------------------%0A` +
+        `_Dibuat via Gun Original Project_`;
+
+    // Cek apakah browser mendukung fitur share native (HP modern)
+    if (navigator.share) {
+        navigator.share({
+            title: 'Nota Karet ' + n.nama,
+            text: pesan.replace(/%0A/g, '\n').replace(/\*/g, ''), // Bersihkan format untuk share biasa
+            url: window.location.href
+        }).catch(err => {
+            // Jika gagal share native, lempar ke WhatsApp
+            window.open(`https://wa.me/?text=${pesan}`, '_blank');
+        });
+    } else {
+        // Untuk browser lama, langsung buka WhatsApp
+        window.open(`https://wa.me/?text=${pesan}`, '_blank');
+    }
 }
 
 /* ====== FUNGSI TUTUP STRUK ====== */
@@ -785,15 +1028,18 @@ function editNota(id) {
         areaBerat.appendChild(div);
     });
 
-    // 4. Ubah Tombol Simpan jadi Tombol Update
+    // 4. Ubah Tombol Simpan jadi Tombol Update (Ganti ✅ pakai SVG Centang)
     const btnSimpan = document.querySelector('.btn-save');
-    btnSimpan.innerText = "Update Nota ✅";
-    btnSimpan.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8)"; // Warna biru untuk edit
+    btnSimpan.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span>Update Nota</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+    `;
+    btnSimpan.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8)"; 
     btnSimpan.onclick = function() { prosesUpdateNota(id); };
-    
-    // 5. Scroll otomatis ke atas biar user nggak bingung
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    idSedangDiedit = id;
 }
 
 function prosesUpdateNota(id) {
@@ -816,8 +1062,8 @@ function prosesUpdateNota(id) {
         database[index].nama = nama;
         database[index].harga = harga;
         database[index].rincian = rincianArr.join(' + ');
-        database[index].totalBerat = totalBerat.toFixed(2);
-        database[index].totalBayar = totalBerat * harga;
+        database[index].totalBerat = Math.round (totalBerat);
+        database[index].totalBayar = Math.round (totalBerat * harga);
 
         // Simpan ke LocalStorage
         localStorage.setItem('database_karet_final', JSON.stringify(database));
@@ -850,7 +1096,18 @@ function resetFormUpdate() {
     idSedangDiedit = null;
 }
 
-    </script>
+    function bukaPanduan() {
+        document.getElementById('halamanPanduan').style.display = 'block';
+        // Mencegah body utama bisa di-scroll saat panduan buka
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function tutupPanduan() {
+        document.getElementById('halamanPanduan').style.display = 'none';
+        // Mengembalikan scroll body
+        document.body.style.overflow = 'auto';
+    }
+</script>
 
 </body>
 </html>
