@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Karet Digital Pro - Gun Project</title>
+    <style>
+/* Daftarkan Font TTF Lokal */
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('PlusJakartaSans-Variable.ttf') format('truetype');
+    font-weight: 400 800; /* Rentang dari Normal ke Extra Bold */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Terapkan ke Body */
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8fafc;
+    -webkit-font-smoothing: antialiased; /* Biar tulisan makin tajam di HP */
+}
+
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --bg-slate: #f8fafc;
+            --text-main: #1e293b;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-slate);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            padding: 24px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid #f1f5f9;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .logo-box {
+            background: var(--primary);
+            padding: 12px;
+            border-radius: 16px;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
+        }
+
+        .logo-box img {
+            width: 28px;
+            height: 28px;
+            display: block;
+        }
+
+        /* FORM INPUT */
+        .form-group { margin-bottom: 16px; }
+        .label-small {
+            font-size: 11px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-left: 4px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            font-family: inherit;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+        }
+
+        .price-input-wrapper { position: relative; }
+        .price-prefix {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .price-input-wrapper input { padding-left: 45px; color: var(--primary-dark); font-size: 1.1rem; }
+
+        .weight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        /* BUTTONS */
+        .btn-row { display: flex; gap: 10px; margin-top: 12px; }
+        .btn-add {
+            padding: 14px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            color: #64748b;
+        }
+        .btn-save {
+            flex: 1;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+        }
+        .btn-save:active { transform: scale(0.98); }
+
+/* STATS BOX MODERN */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0 20px;
+    margin: 25px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 15px 10px;
+    border-radius: 24px;
+    text-align: center;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.stat-card:active { transform: scale(0.95); }
+
+/* Dekorasi Ikon Kecil di Pojok Kartu */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+.stat-hari::after { background: var(--primary); }
+.stat-minggu::after { background: #2563eb; }
+.stat-bulan::after { background: #7c3aed; }
+
+.stat-label { 
+    font-size: 10px; 
+    font-weight: 800; 
+    color: #94a3b8; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.stat-val { 
+    font-size: 14px; 
+    font-weight: 900; 
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.unit-kg {
+    font-size: 9px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+        /* LIST NOTA */
+        main { padding: 0 24px 24px; }
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            background: white;
+            border: none;
+            box-shadow: var(--shadow);
+            padding-left: 40px;
+        }
+        .search-icon { position: absolute; left: 14px; top: 14px; opacity: 0.4; }
+
+        .nota-card {
+            background: white;
+            padding: 20px;
+            border-radius: 30px;
+            margin-bottom: 16px;
+            border: 1px solid #f1f5f9;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .nota-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .nota-date { font-family: monospace; font-size: 10px; font-weight: 700; color: #94a3b8; }
+        .nota-name { font-size: 1.1rem; font-weight: 800; text-transform: capitalize; margin-bottom: 12px; }
+        .nota-detail-box {
+            background: #ecfdf5;
+            border-left: 4px solid var(--primary);
+            padding: 12px;
+            border-radius: 0 12px 12px 0;
+            font-family: monospace;
+            font-size: 11px;
+            color: #065f46;
+            margin-bottom: 15px;
+        }
+
+        .nota-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 15px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .total-pay-val { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+
+        /* UTILS & ANIMATION */
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden { display: none !important; }
+
+        /* Copy existing receipt & toast styles here, they are already vanilla-ish */
+        #toast {
+            visibility: hidden; min-width: 200px; background: #065f46; color: white;
+            text-align: center; border-radius: 50px; padding: 12px; position: fixed;
+            left: 50%; bottom: 30px; transform: translateX(-50%); z-index: 1000;
+        }
+        #toast.show { visibility: visible; animation: slideIn 0.3s forwards; }
+
+/* ============================================================
+   1. CSS MODAL (TAMPILAN DI LAYAR HP/LAPTOP)
+   ============================================================ */
+
+/* Overlay Modal (Latar Belakang Gelap) */
+#modal-struk, #modal-kalkulator {
+    display: none; /* Sembunyi dulu */
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;    /* Tengah Vertikal */
+    justify-content: center; /* Tengah Horisontal */
+    padding: 20px;
+}
+
+#modal-struk.active, #modal-kalkulator.active {
+    display: flex !important; /* Muncul saat aktif */
+}
+
+.modal-bg-click {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.8); /* Gelap Blur */
+    backdrop-filter: blur(5px);
+}
+
+/* Kertas Struk Besar & Pop-up */
+.kertas-struk-besar, .kertas-kalkulator-besar {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 350px; /* Ukuran Lebar Mantap */
+    background: white;
+    padding: 25px;
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: popUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+@keyframes popUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Container tombol */
+.struk-actions-center {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+    padding: 0 5px;
+}
+
+/* Base style untuk semua tombol di modal */
+.struk-actions-center button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Tombol Tutup (Sederhana tapi Elegan) */
+.btn-close-modal {
+    background: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-close-modal:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+/* Tombol Cetak (Mencolok & Berwibawa) */
+.btn-print-modal {
+    flex: 1.5 !important; /* Tombol cetak lebih lebar sedikit */
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+}
+
+.btn-print-modal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -3px rgba(16, 185, 129, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-print-modal:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* ============================================================
+   CSS KHUSUS KALKULATOR
+   ============================================================ */
+.calc-input-group {
+    margin-bottom: 15px;
+}
+.calc-input-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.calc-input-group input {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.calc-display {
+    width: 100%;
+    background: #1e293b;
+    color: #10b981;
+    font-family: monospace;
+    font-size: 2rem;
+    font-weight: 800;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: right;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+}
+
+.calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.calc-btn {
+    background: #f1f5f9;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    cursor: pointer;
+    transition: 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.calc-btn:active {
+    transform: scale(0.95);
+    background: #e2e8f0;
+}
+
+.calc-btn.op {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+.calc-btn.equal {
+    background: #059669;
+    color: white;
+    font-size: 1.5rem;
+}
+.calc-btn.clear {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+/* HASIL KALKULATOR DI KARTU NOTA */
+.nota-calc-result {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+    background: #f8fafc;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    margin-bottom: -20px;
+    border-radius: 0 0 30px 30px;
+}
+.nota-calc-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.calc-label-text {
+    font-size: 10px;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+}
+.calc-val-text {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #4f46e5;
+}
+
+/* ============================================================
+   CSS KHUSUS CETAK (PRINTER THERMAL 58mm)
+   ============================================================ */
+@media print {
+    /* Sembunyikan SEMUA elemen halaman utama & modal UI */
+    body * { 
+        visibility: hidden; 
+    }
+    
+    /* Hanya tampilkan isi struknya saja */
+    #isi-struk, #isi-struk * { 
+        visibility: visible; 
+    }
+
+    #isi-struk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 58mm; /* Lebar standar printer Bluetooth */
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Hilangkan background modal saat diprint */
+    .modal-bg-click, .struk-actions-center {
+        display: none !important;
+    }
+    
+    /* Watermark di latar belakang kartu */
+.nota-card {
+    position: relative;
+    overflow: hidden; /* Biar watermark nggak keluar garis */
+}
+
+.nota-card::before {
+    content: "Gun";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-family: 'Brush Script MT', cursive;
+    font-size: 80px;
+    color: rgba(5, 150, 105, 0.05); /* Hijau sangat transparan */
+    pointer-events: none; /* Biar nggak ganggu klik tombol */
+    z-index: 0;
+}
+}
+
+/* Container Logo Toggle */
+.logo-toggle-container {
+    width: 110px;
+    height: 60px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Base style untuk kedua elemen */
+.logo-main, .logo-help {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Animasi Logo Utama (Tampil 0-20 detik, Hilang 20-30 detik) */
+.logo-main {
+    animation: toggleLogo 30s infinite;
+}
+
+/* Animasi Ikon Panduan (Hilang 0-20 detik, Tampil 20-30 detik) */
+.logo-help {
+    opacity: 0;
+    transform: scale(0.5);
+    animation: toggleHelp 30s infinite;
+}
+
+.help-circle {
+    background: #059669;
+    color: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+}
+
+.help-text {
+    font-size: 10px;
+    font-weight: 800;
+    color: #059669;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+/* Keyframes Logic: 2/3 (66%) waktu untuk Logo, 1/3 (33%) untuk Panduan */
+@keyframes toggleLogo {
+    0%, 66% { opacity: 1; transform: scale(1); visibility: visible; }
+    67%, 100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
+}
+
+@keyframes toggleHelp {
+    0%, 66% { opacity: 0; transform: scale(0.5); visibility: hidden; }
+    67%, 95% { opacity: 1; transform: scale(1); visibility: visible; }
+    100% { opacity: 0; transform: scale(0.5); visibility: hidden; }
+}
+
+/* Style untuk tombol premium yang terkunci */
+.btn-locked {
+    position: relative;
+    opacity: 0.5; /* Terlihat agak pudar */
+    filter: grayscale(0.5);
+}
+
+.btn-locked::after {
+    content: "🔒"; /* Ikon gembok */
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 10px;
+    background: white;
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Style Tombol Aksi di Kartu Nota agar Seragam dengan Panduan */
+.btn-action-card {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+/* Warna masing-masing tombol saat aktif/ditekan */
+.btn-struk { background: #ecfdf5; }
+.btn-edit { background: #eff6ff; }
+.btn-calc { background: #eef2ff; }
+.btn-share { background: #fffbeb; }
+.btn-delete { background: #fef2f2; }
+
+/* Efek hover/klik */
+.btn-action-card:active {
+    transform: scale(0.9);
+    filter: brightness(0.9);
+}
+
+/* Tambahan untuk tombol terkunci agar gemboknya pas */
+.btn-locked {
+    position: relative;
+    opacity: 0.6;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- MODAL STRUK -->
+<div id="modal-struk">
+    <div class="modal-bg-click" onclick="tutupStruk()"></div>
+    
+    <div class="kertas-struk-besar">
+        <div id="isi-struk"></div>
+        
+        <div class="struk-actions-center">
+            <button class="btn-close-modal" onclick="tutupStruk()">
+                <span>✕</span> Tutup
+            </button>
+            <button id="btn-cetak-struk" class="btn-print-modal">
+                <span>🖨️</span> Cetak Struk
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL KALKULATOR -->
+<div id="modal-kalkulator">
+    <div class="modal-bg-click" onclick="tutupKalkulator()"></div>
+    
+    <div class="kertas-kalkulator-besar">
+        <div style="text-align:center; margin-bottom: 20px;">
+            <h2 style="margin:0; font-size: 1.2rem; color:#1e293b;">Kalkulator Nota</h2>
+            <p style="font-size:11px; color:#94a3b8; margin-top:4px;">Hasil akan tampil di kartu nota</p>
+        </div>
+
+        <div class="calc-input-group">
+            <label>Judul Hasil (Opsional)</label>
+            <input type="text" id="calc-label-input" placeholder="Contoh: Kalkulator digunakan" value="Kalkulator digunakan">
+        </div>
+
+        <input type="text" class="calc-display" id="calc-display" readonly placeholder="0">
+
+        <div class="calc-grid">
+            <button class="calc-btn clear" onclick="resetKalkulator()">C</button>
+            <button class="calc-btn op" onclick="ketikKalkulator('/')">÷</button>
+            <button class="calc-btn op" onclick="ketikKalkulator('*')">×</button>
+            <button class="calc-btn op" onclick="hapusKalkulator()">⌫</button>
+
+            <button class="calc-btn" onclick="ketikKalkulator('7')">7</button>
+            <button class="calc-btn" onclick="ketikKalkulator('8')">8</button>
+            <button class="calc-btn" onclick="ketikKalkulator('9')">9</button>
+            <button class="calc-btn op" onclick="ketikKalkulator('-')">−</button>
+
+            <button class="calc-btn" onclick="ketikKalkulator('4')">4</button>
+            <button class="calc-btn" onclick="ketikKalkulator('5')">5</button>
+            <button class="calc-btn" onclick="ketikKalkulator('6')">6</button>
+            <button class="calc-btn op" onclick="ketikKalkulator('+')">+</button>
+
+            <button class="calc-btn" onclick="ketikKalkulator('1')">1</button>
+            <button class="calc-btn" onclick="ketikKalkulator('2')">2</button>
+            <button class="calc-btn" onclick="ketikKalkulator('3')">3</button>
+            <button class="calc-btn equal" style="grid-row: span 2;" onclick="hitungKalkulator()">=</button>
+
+            <button class="calc-btn" style="grid-column: span 2;" onclick="ketikKalkulator('0')">0</button>
+            <button class="calc-btn" onclick="ketikKalkulator('.')">.</button>
+        </div>
+
+        <div class="struk-actions-center" style="margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+            <button class="btn-close-modal" onclick="tutupKalkulator()">Batal</button>
+            <button class="btn-print-modal" onclick="simpanHasilKalkulator()">Simpan Hasil</button>
+        </div>
+    </div>
+</div>
+
+    <div id="toast">Nota Berhasil Disimpan! ✅</div>
+
+<div class="container">
+    <header style="background: white; padding: 25px 20px 35px; border-radius: 0 0 35px 35px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+            
+            <div style="flex: 1;">
+                <h1 style="font-size: 32px; font-weight: 800; color: #1e293b; line-height: 1.1; margin: 0;">
+                    Nota Karet
+                </h1>
+                <p style="font-size: 9px; color: #10b981; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">
+                    Catatan Digital
+                </p>
+            </div>
+
+            <div onclick="bukaPanduan()" class="logo-toggle-container">
+    <div class="logo-main">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; overflow: visible;">
+            <text x="50%" y="140" text-anchor="middle" font-family="'Brush Script MT', cursive" font-weight="900" font-size="150" fill="#059669">Gun</text>
+            <text x="50%" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="20" fill="#FF8C00" style="letter-spacing: 2px; text-transform: uppercase;">Original Project</text>
+        </svg>
+    </div>
+
+    <div class="logo-help">
+        <div class="help-circle">?</div>
+        <span class="help-text">Panduan</span>
+    </div>
+</div>
+        </div>
+    </header>
+
+<div id="halamanPanduan" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 9999; overflow-y: auto; font-family: 'Segoe UI', Roboto, sans-serif;">
+    <div style="padding: 15px 20px; background: white; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="background: #059669; color: white; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold;">?</div>
+            <h2 style="margin: 0; font-size: 1.1rem; color: #1e293b;">Panduan Penggunaan</h2>
+        </div>
+        <button onclick="tutupPanduan()" style="
+    background: #fee2e2; 
+    color: #ef4444; 
+    border: none; 
+    width: 31px; 
+    height: 31px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: 0.2s;
+">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+</button>
+    </div>
+
+    <div style="padding: 25px; max-width: 500px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h3 style="color: #0f172a; margin-bottom: 5px; font-size: 1.5rem;">Timbangan Karet</h3>
+            <p style="color: #64748b; font-size: 14px; margin-top: 0;">Ikuti langkah di bawah untuk hasil akurat</p>
+        </div>
+
+<div style="background: white; padding: 25px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+        
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; transition: 0.3s; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">01</div>
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">Pastikan semua kolom input sudah <strong style="color: #1e293b;">kosong</strong> sebelum mulai mencatat baru.</p>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">02</div>
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">Masukkan <strong style="color: #1e293b;">Nama Petani, Harga,</strong> dan <strong style="color: #1e293b;">Berat</strong> pada kolom yang tersedia.</p>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">03</div>
+            <div style="margin: 0;">
+                <p style="margin: 0 0 8px 0; color: #475569; font-size: 14px; font-weight: 600;">Aturan Input Berat:</p>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 6px;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b;">
+                        <span style="width: 6px; height: 6px; background: #cbd5e1; border-radius: 50%;"></span> 1-2 Timbangan: Isi kolom langsung
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b;">
+                        <span style="width: 6px; height: 6px; background: #cbd5e1; border-radius: 50%;"></span> Lebih dari 2: Klik tombol <strong style="color: #059669; background: #ecfdf5; padding: 2px 6px; border-radius: 4px;">+</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px; border-radius: 16px; background: #fafafa;">
+            <div style="background: #059669; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">04</div>
+            <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">Klik tombol <strong style="color: white; background: #059669; padding: 4px 10px; border-radius: 8px; font-size: 12px;">Simpan Nota</strong> untuk memproses data.</p>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 15px; border-radius: 18px; background: #ecfdf5; border: 1px dashed #10b981;">
+            <div style="background: #10b981; color: white; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 800; font-size: 14px;">05</div>
+            <p style="margin: 0; color: #065f46; font-size: 14px; line-height: 1.5; font-weight: 500;">Selesai! <strong style="text-decoration: underline;">Total Berat & Uang</strong> akan muncul di daftar nota secara otomatis.</p>
+        </div>
+
+    </div>
+</div>
+
+<div style="margin-top: 30px;">
+    <h4 style="color: #1e293b; font-size: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        Fungsi Tombol di Kartu Nota
+    </h4>
+
+    <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+        
+        <div style="background: white; padding: 12px; border-radius: 16px; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px;">
+            <div style="background: #ecfdf5; padding: 8px; border-radius: 10px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+            </div>
+            <div>
+                <strong style="display: block; font-size: 13px; color: #1e293b;">Lihat Struk</strong>
+                <span style="font-size: 11px; color: #64748b;">Melihat struk digital siap cetak dengan watermark.</span>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 12px; border-radius: 16px; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px;">
+            <div style="background: #eff6ff; padding: 8px; border-radius: 10px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+            </div>
+            <div>
+                <strong style="display: block; font-size: 13px; color: #1e293b;">Edit Nota</strong>
+                <span style="font-size: 11px; color: #64748b;">Mengubah nama petani, harga, atau rincian berat.
+                <br><span style="font-size: 8px; color: #f59e0b;">Khusus Premium</span></span>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 12px; border-radius: 16px; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px;">
+            <div style="background: #eef2ff; padding: 8px; border-radius: 10px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/>
+                    <line x1="12" y1="10" x2="12" y2="10.01"/><line x1="12" y1="14" x2="12" y2="14.01"/>
+                </svg>
+            </div>
+            <div>
+                <strong style="display: block; font-size: 13px; color: #1e293b;">Kalkulator Tambahan</strong>
+                <span style="font-size: 11px; color: #64748b;">Menghitung potongan atau tambahan uang di nota.
+                <br><span style="font-size: 8px; color: #f59e0b;">Khusus Premium</span></span>
+</span>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 12px; border-radius: 16px; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px;">
+            <div style="background: #fffbeb; padding: 8px; border-radius: 10px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                    <polyline points="16 6 12 2 8 6"></polyline>
+                    <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+            </div>
+            <div>
+                <strong style="display: block; font-size: 13px; color: #1e293b;">Kirim WhatsApp</strong>
+                <span style="font-size: 11px; color: #64748b;">Mengirim rincian nota dalam bentuk teks rapi ke WA.
+                <br><span style="font-size: 8px; color: #f59e0b;">Khusus Premium</span></span>
+</span>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 12px; border-radius: 16px; border: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px;">
+            <div style="background: #fef2f2; padding: 8px; border-radius: 10px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+            <div>
+                <strong style="display: block; font-size: 13px; color: #1e293b;">Hapus Nota</strong>
+                <span style="font-size: 11px; color: #64748b;">Menghapus data nota yang salah secara permanen.</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 12px; margin-top: 25px; display: flex; gap: 12px; align-items: flex-start;">
+            <div style="margin-top: 2px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#92400e" stroke-width="2"/>
+                    <path d="M12 16V12" stroke="#92400e" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 8H12.01" stroke="#92400e" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <p style="margin: 0; font-size: 13px; color: #92400e; line-height: 1.5;">
+                <strong>Tips:</strong> Aplikasi ini mendukung mode offline. Jangan <strong>refresh browser</strong> agar data yang sedang diinput tidak hilang.
+            </p>
+        </div>
+
+<div style="background: #f8fafc; border: 2px solid #e2e8f0; padding: 20px; border-radius: 24px; margin-top: 30px; position: relative; overflow: hidden;">
+    
+    <div style="position: absolute; right: -10px; bottom: -10px; opacity: 0.05; transform: rotate(-15deg);">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1v-3a5 5 0 0 0-5-5zm-3 5a3 3 0 0 1 6 0v3H9V7zm3 11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+    </div>
+
+    <h4 style="margin: 0 0 12px 0; color: #475569; font-size: 14px; display: flex; align-items: center; gap: 8px; font-weight: 800;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Hak Cipta & Lisensi
+    </h4>
+
+    <p style="margin: 0; font-size: 12px; color: #64748b; line-height: 1.6; position: relative; z-index: 1;">
+        Aplikasi <strong>Nota Karet Digital Pro</strong> adalah properti intelektual dari <strong>Gun Original Project</strong>. 
+        Segala bentuk modifikasi kode, penghapusan label hak cipta, atau pendistribusian ulang tanpa lisensi resmi adalah tindakan ilegal.
+    </p>
+
+    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #cbd5e1; position: relative; z-index: 1;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <span style="font-size: 11px; color: #059669; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Status Anda:</span>
+            <span id="status-lisensi-teks" style="font-size: 10px; background: #fee2e2; color: #ef4444; padding: 3px 10px; border-radius: 50px; font-weight: 800; border: 1px solid #fecaca;">
+                VERSI GRATIS
+            </span>
+        </div>
+
+        <p style="font-size: 12px; color: #1e293b; margin-bottom: 15px; font-weight: 500;">
+            Ingin menghapus <strong>Watermark</strong> dan membuka fitur <strong>Kalkulator, Edit, & Share?</strong></br>
+           Serta Support Pengembangan Aplikasi.
+        </p>
+
+        <button onclick="hubungiAdmin()" style="
+            width: 100%;
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px -5px rgba(5, 150, 105, 0.4);
+            transition: 0.3s;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <span>🚀</span> Beli Lisensi Premium
+        </button>
+        
+        <p style="text-align: center; font-size: 10px; color: #94a3b8; margin-top: 12px;">
+            Aktivasi instan melalui WhatsApp Admin
+        </p>
+    </div>
+</div>
+        
+        <div style="margin-top: 50px; text-align: center; padding-bottom: 20px;">
+    <div style="width: 120px; margin: 0 auto; opacity: 0.9;">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; overflow: visible;">
+            <text x="50%" y="90" text-anchor="middle" font-family="'Brush Script MT', cursive" font-weight="900" font-size="100" fill="#059669">Gun</text>
+            <text x="50%" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="#FF8C00" style="letter-spacing: 2px; text-transform: uppercase;">Original Project</text>
+        </svg>
+    </div>
+
+    <div style="margin-top: 15px; display: inline-block;">
+        <span style="
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 10px; 
+            font-weight: 800; 
+            color: #64748b; 
+            background: #f1f5f9; 
+            padding: 4px 12px; 
+            border-radius: 50px; 
+            border: 1px solid #e2e8f0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        ">
+            Build v1.1.4-calc
+        </span>
+    </div>
+    
+    <p style="font-size: 9px; color: #cbd5e1; margin-top: 8px; font-weight: 600; letter-spacing: 0.5px;">
+        &copy; 2026 Gun Original Project
+    </p>
+</div>
+</div>
+</div>            <div class="form-container">
+             <div style="padding: 10px 10px; margin-top: 1px;">
+    
+    <div style="background: white; padding: 25px 20px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #f1f5f9;">
+                <div class="form-group">
+                    <label class="label-small">Nama Petani</label>
+                    <input type="text" id="nama" placeholder="Nama petani...">
+                </div>
+
+                <div class="form-group">
+                    <label class="label-small">Harga (Rp/Kg)</label>
+                    <div class="price-input-wrapper">
+                        <span class="price-prefix">Rp</span>
+                        <input type="number" id="harga" placeholder="0">
+                    </div>
+                </div>
+
+                <div id="area-berat" class="form-group">
+                    <label class="label-small">Input Berat (Kg)</label>
+                    <div class="weight-grid">
+                        <input type="number" class="input-berat" placeholder="Timbangan 1">
+                        <input type="number" class="input-berat" placeholder="Timbangan 2">
+                    </div>
+                </div>
+                </div>
+
+                <div class="btn-row">
+                    <button onclick="tambahBaris()" class="btn-add">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <button onclick="simpanNota()" class="btn-save">Simpan Nota</button>
+                </div>
+            </div>
+            </div>
+
+        <div class="stats-grid">
+    <div class="stat-card stat-hari">
+        <span class="stat-label">Hari Ini</span>
+        <div class="stat-val">
+            <span id="stat-berat-hari" style="color: var(--primary);">0</span>
+            <span class="unit-kg">KG</span>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-minggu">
+        <span class="stat-label">Minggu Ini</span>
+        <div class="stat-val">
+            <span id="stat-berat-minggu" style="color: #2563eb;">0</span>
+            <span class="unit-kg">KG</span>
+        </div>
+    </div>
+    
+    <div class="stat-card stat-bulan">
+        <span class="stat-label">Bulan Ini</span>
+        <div class="stat-val">
+            <span id="stat-berat-bulan" style="color: #7c3aed;">0</span>
+            <span class="unit-kg">KG</span>
+        </div>
+    </div>
+</div>
+
+        <main>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="input-cari" onkeyup="cariNota()" placeholder="Cari nota petani...">
+            </div>
+            <div id="daftar-nota">
+                </div>
+        </main>
+    </div>
+
+<script>
+/* ============================================================
+   1. DEKLARASI VARIABEL GLOBAL (WAJIB DI ATAS)
+   ============================================================ */
+// Status Lisensi: ganti ke 'true' untuk mengaktifkan semua fitur
+let isPremium = false; 
+
+// Ambil data dari LocalStorage
+let database = JSON.parse(localStorage.getItem('database_karet_final')) || [];
+
+// Variabel bantuan untuk fitur aplikasi
+let currentCalcId = null;
+
+/* ============================================================
+   2. EKSEKUSI AWAL
+   ============================================================ */
+// Jalankan fungsi tampilkan data pertama kali saat web dibuka
+tampilkanData(database);
+
+/* ============================================================
+   3. FUNGSI-FUNGSI UTAMA
+   ============================================================ */
+
+/* FUNGSI SIMPAN NOTA */
+function simpanNota() {
+    const namaInput = document.getElementById('nama');
+    const hargaInput = document.getElementById('harga');
+    const inputs = document.querySelectorAll('.input-berat');
+
+    const nama = namaInput.value.trim();
+    const harga = parseFloat(hargaInput.value) || 0;
+
+    if (!nama || harga <= 0) { 
+        showToast("⚠️ Lengkapi Nama & Harga!"); 
+        return; 
+    }
+
+    let rincianArr = [];
+    let totalBerat = 0;
+    inputs.forEach(i => {
+        let v = parseFloat(i.value) || 0;
+        if (v > 0) { 
+            rincianArr.push(v); 
+            totalBerat += v; 
+        }
+    });
+
+    if (totalBerat <= 0) { 
+        showToast("⚠️ Masukkan berat!"); 
+        return; 
+    }
+
+    const nota = {
+        id: Date.now(),
+        tgl: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }),
+        nama: nama,
+        harga: harga,
+        rincian: rincianArr.join(' + '),
+        totalBerat: Math.round(totalBerat),
+        totalBayar: Math.round(totalBerat * harga),
+        calcLabel: "",
+        calcResult: 0
+    };
+
+    database.unshift(nota);
+    localStorage.setItem('database_karet_final', JSON.stringify(database));
+
+    // Reset Input
+    namaInput.value = '';
+    hargaInput.value = '';
+    inputs.forEach(i => i.value = '');
+    
+    showToast("Nota " + nama + " Tersimpan! ✅");
+    tampilkanData(database);
+}
+
+/* FUNGSI TAMPILKAN DAFTAR NOTA */
+function tampilkanData(data) {
+    // Fungsi updateStatistik harus sudah didefinisikan di bawah
+    if (typeof updateStatistik === "function") updateStatistik(); 
+
+    const wadah = document.getElementById('daftar-nota');
+    
+    if (data.length === 0) {
+        wadah.innerHTML = '<p style="text-align:center; color:#94a3b8; font-size:14px; margin-top:20px;">Belum ada nota...</p>';
+        return;
+    }
+
+    wadah.innerHTML = '';
+    data.forEach(n => {
+        const card = document.createElement('div');
+        card.className = 'nota-card';
+        
+        // Cek apakah ada hasil kalkulator
+        let calcDisplayHtml = '';
+        if (n.calcResult && n.calcResult !== 0) {
+            calcDisplayHtml = `
+            <div class="nota-calc-result" style="position:relative; z-index:2;">
+                <div class="nota-calc-inner">
+                    <span class="calc-label-text">${n.calcLabel || 'Kalkulator'}</span>
+                    <span class="calc-val-text">Rp ${n.calcResult.toLocaleString('id-ID')}</span>
+                </div>
+            </div>`;
+        }
+
+        // Tentukan class kunci jika bukan premium
+        const lockClass = isPremium ? "" : "btn-locked";
+
+        card.innerHTML = `
+        <div style="position:relative; z-index:2;">
+            <div class="nota-header">
+                <div class="nota-date">${n.tgl}</div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    
+                      <button onclick="tampilStruk(${n.id})" class="btn-action-card btn-struk" title="Lihat Struk">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                </button>
+
+                    <button onclick="if(proteksiPremium('Edit Nota')) editNota(${n.id})" class="btn-action-card btn-edit ${lockClass}" title="Edit">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+
+                    <button onclick="if(proteksiPremium('Kalkulator')) bukaKalkulator(${n.id})" class="btn-action-card btn-calc ${lockClass}" title="Kalkulator">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+                </button>
+
+                    <button onclick="if(proteksiPremium('Bagikan')) bagikanNota(${n.id})" class="btn-action-card btn-share ${lockClass}" title="Bagikan">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+    <polyline points="16 6 12 2 8 6"></polyline>
+    <line x1="12" y1="2" x2="12" y2="15"></line>
+</svg>
+                </button>
+                    
+                    <button onclick="hapusNota(${n.id})" class="btn-action-card btn-delete" title="Hapus">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                </div>
+            </div>
+            <div class="nota-name">${n.nama}</div>
+            <div class="nota-detail-box">${n.rincian} = ${n.totalBerat} Kg</div>
+            <div class="nota-footer">
+                <div>
+                    <p style="font-size:9px; color:#94a3b8; font-weight:800; text-transform:uppercase;">Harga</p>
+                    <p style="font-size:13px; font-weight:700;">Rp ${n.harga.toLocaleString('id-ID')}</p>
+                </div>
+                <div style="text-align:right;">
+                    <p style="font-size:9px; color:#059669; font-weight:800; text-transform:uppercase;">Total Bayar</p>
+                    <p class="total-pay-val">Rp ${n.totalBayar.toLocaleString('id-ID')}</p>
+                </div>
+            </div>
+            ${calcDisplayHtml}
+        </div>`;
+        wadah.appendChild(card);
+    });
+}
+
+/* FUNGSI CEK STATUS PREMIUM DENGAN MODAL KEREN */
+function proteksiPremium(fitur) {
+    if (isPremium) {
+        // Jika premium, jalankan fungsi asli sesuai kebutuhan
+        // Karena ini fungsi proteksi, kita kembalikan nilai true/false
+        return true; 
+    } else {
+        // Jika gratis, tampilkan modal premium buatan sendiri
+        document.getElementById('premium-title').innerText = "Buka Fitur " + fitur;
+        document.getElementById('modal-premium').style.display = 'flex';
+        return false;
+    }
+}
+
+// Fungsi pembantu untuk tutup modal
+function tutupModalPremium() {
+    document.getElementById('modal-premium').style.display = 'none';
+}
+
+// Fungsi untuk arahkan ke WA
+function hubungiAdmin() {
+    const text = "Halo Gun Project, saya tertarik dengan fitur Premium di aplikasi Nota Karet.";
+    window.open(`https://wa.me/62816308466?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+/* ====== FUNGSI TAMBAH BARIS INPUT ====== */
+function tambahBaris() {
+    const area = document.getElementById('area-berat');
+    const div = document.createElement('div');
+    div.style.marginTop = "8px";
+    div.innerHTML = `<input type="number" class="input-berat" placeholder="Timbangan Tambahan">`;
+    area.appendChild(div);
+}
+
+/* ====== FUNGSI TOAST ====== */
+function showToast(pesan) {
+    const x = document.getElementById("toast");
+    x.innerText = pesan;
+    x.className = "show";
+    setTimeout(() => { x.className = ""; }, 2500);
+}
+
+/* ====== FUNGSI CARI ====== */
+function cariNota() {
+    const kw = document.getElementById('input-cari').value.toLowerCase();
+    const hasil = database.filter(n => n.nama.toLowerCase().includes(kw));
+    tampilkanData(hasil);
+}
+
+/* ====== UPDATE STATISTIK LENGKAP (HARI, MINGGU, BULAN) ====== */
+function updateStatistik() {
+    const sekarang = new Date();
+    const hariIni = sekarang.toDateString();
+    
+    // Hitung awal minggu (Senin)
+    const awalMinggu = new Date(sekarang);
+    awalMinggu.setDate(sekarang.getDate() - (sekarang.getDay() === 0 ? 6 : sekarang.getDay() - 1));
+    awalMinggu.setHours(0,0,0,0);
+
+    let stats = { hari: 0, minggu: 0, bulan: 0 };
+
+    database.forEach(n => {
+        // Karena n.id adalah timestamp (angka), kita buat objek Date
+        const tglNota = new Date(n.id);
+        const berat = parseFloat(n.totalBerat) || 0;
+
+        // 1. Cek Hari Ini
+        if (tglNota.toDateString() === hariIni) {
+            stats.hari += berat;
+        }
+
+        // 2. Cek Minggu Ini (7 hari terakhir dari hari senin)
+        if (tglNota >= awalMinggu) {
+            stats.minggu += berat;
+        }
+
+        // 3. Cek Bulan Ini (Misal: April 2026)
+        if (tglNota.getMonth() === sekarang.getMonth() && tglNota.getFullYear() === sekarang.getFullYear()) {
+            stats.bulan += berat;
+        }
+    });
+
+    // Cukup tampilkan angkanya saja, satuannya sudah otomatis dari HTML
+    document.getElementById('stat-berat-hari').innerText = Math.round(stats.hari);
+    document.getElementById('stat-berat-minggu').innerText = Math.round(stats.minggu);
+    document.getElementById('stat-berat-bulan').innerText = Math.round(stats.bulan);
+}
+
+/* ====== FUNGSI TAMPIL MODAL STRUK DENGAN WATERMARK ====== */
+function tampilStruk(id) {
+    const nota = database.find(n => n.id === id);
+    if (!nota) return;
+
+    const modal = document.getElementById('modal-struk');
+    const isi = document.getElementById('isi-struk');
+
+    // Pecah tanggal dan waktu
+    const parts = nota.tgl.split(', ');
+    const tgl = parts[0] || nota.tgl;
+    const waktu = parts[1] || '';
+    
+    // Bangun baris rincian berat
+    const beratArr = nota.rincian.split(/\s*\+\s*/);
+    let rincianHtml = '';
+    beratArr.forEach((b, i) => {
+        rincianHtml += `
+            <div style="display:flex; justify-content:space-between; font-family:monospace; margin-bottom:2px; position:relative; z-index:2;">
+                <span style="color:#888;">${i + 1}.</span>
+                <span style="font-weight:bold;">${parseFloat(b)} Kg</span>
+            </div>`;
+    });
+
+    // MASUKKAN KODE HTML STRUK KE DALAM MODAL
+    isi.innerHTML = `
+        <div style="position: relative; overflow: hidden; padding: 10px; background: #fff;">
+            
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); 
+                        opacity: 0.08; pointer-events: none; width: 100%; text-align: center; z-index: 1;">
+                <svg width="220" height="110" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="45%" text-anchor="middle" dominant-baseline="middle" 
+                          font-family="'Brush Script MT', cursive" font-weight="900" font-size="120" fill="#003366">
+                        Gun
+                    </text>
+                    <text x="50%" y="75%" text-anchor="middle" dominant-baseline="middle" 
+                          font-family="Arial, sans-serif" font-weight="bold" font-size="24" 
+                          fill="#FF8C00" text-transform="uppercase" letter-spacing="4">
+                        Original Project
+                    </text>
+                </svg>
+            </div>
+
+            <div style="position: relative; z-index: 2; text-align:center; font-family:monospace;">
+                <div style="font-weight:800; font-size:16px; letter-spacing:1px;">NOTA KARET DIGITAL</div>
+                <div style="font-size:9px; color:#666; margin-bottom:5px;"><B>By : </B>Gun Original Project</div>
+                
+                <hr style="border:none; border-top:1px dashed #000; margin:10px 0;">
+                
+                <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:2px;">
+                    <span>Petani:</span><span style="font-weight:bold;">${nota.nama.toUpperCase()}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:2px;">
+                    <span>Tanggal:</span><span>${tgl}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px;">
+                    <span>Waktu:</span><span>${waktu}</span>
+                </div>
+
+                <hr style="border:none; border-top:1px dashed #ccc; margin:10px 0;">
+                <div style="font-size:10px; font-weight:bold; letter-spacing:2px; margin-bottom:8px; color:#555;">RINCIAN BERAT</div>
+                
+                ${rincianHtml}
+                
+                <hr style="border:none; border-top:1px dashed #ccc; margin:10px 0;">
+                
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:3px;">
+                    <span>Total Berat:</span><span style="font-weight:bold;">${nota.totalBerat} Kg</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                    <span>Harga/Kg:</span><span style="font-weight:bold;">Rp ${nota.harga.toLocaleString('id-ID')}</span>
+                </div>
+
+                <div style="background:#000; color:#fff; padding:12px; border-radius:8px; margin-top:15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <div style="font-size:9px; text-transform:uppercase; opacity:0.7; letter-spacing:2px; margin-bottom:3px;">Total Bayar</div>
+                    <div style="font-size:18px; font-weight:bold; letter-spacing:0.5px;">Rp ${nota.totalBayar.toLocaleString('id-ID')}</div>
+                </div>
+
+                <div style="margin-top:20px; font-size:10px; color:#888;">
+                    Jasa Pembuatan<br>
+                    <small style="font-size:8px; opacity:0.6;">Aplikasi, Website, Toko Online</br>
+                    Undangan Digital dll</br>
+                    <span><b>Wa 0816 308 466</b></small>
+                    </span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Aktifkan Modal
+    modal.classList.add('active');
+    
+    // Berikan ID ke tombol cetak
+    const btnCetak = document.getElementById('btn-cetak-struk');
+    if(btnCetak) btnCetak.setAttribute('data-id', id);
+}
+
+/* ====== FUNGSI BAGIKAN NOTA ====== */
+function bagikanNota(id) {
+    const n = database.find(nota => nota.id === id);
+    if (!n) return;
+
+    const pesan = `*NOTA KARET DIGITAL*%0A` +
+        `----------------------------%0A` +
+        `*Nama:* ${n.nama.toUpperCase()}%0A` +
+        `*Tanggal:* ${n.tgl}%0A` +
+        `----------------------------%0A` +
+        `*Rincian Berat:*%0A${n.rincian.replace(/\+/g, '%0A')}%0A` +
+        `----------------------------%0A` +
+        `*Total Berat:* ${n.totalBerat} Kg%0A` +
+        `*Harga/Kg:* Rp ${n.harga.toLocaleString('id-ID')}%0A` +
+        `*TOTAL BAYAR:* *Rp ${n.totalBayar.toLocaleString('id-ID')}*%0A` +
+        `----------------------------%0A` +
+        `_Dibuat via Gun Original Project_`;
+
+    // Cek apakah browser mendukung fitur share native (HP modern)
+    if (navigator.share) {
+        navigator.share({
+            title: 'Nota Karet ' + n.nama,
+            text: pesan.replace(/%0A/g, '\n').replace(/\*/g, ''), // Bersihkan format untuk share biasa
+            url: window.location.href
+        }).catch(err => {
+            // Jika gagal share native, lempar ke WhatsApp
+            window.open(`https://wa.me/?text=${pesan}`, '_blank');
+        });
+    } else {
+        // Untuk browser lama, langsung buka WhatsApp
+        window.open(`https://wa.me/?text=${pesan}`, '_blank');
+    }
+}
+
+/* ====== FUNGSI TUTUP STRUK ====== */
+function tutupStruk() {
+    document.getElementById('modal-struk').classList.remove('active');
+}
+
+/* ====== FUNGSI EDIT NOTA ====== */
+let idSedangDiedit = null; // Variabel bantuan untuk nandain nota mana yang lagi diedit
+
+function editNota(id) {
+    // 1. Cari data nota berdasarkan ID
+    const nota = database.find(n => n.id === id);
+    if (!nota) return;
+
+    // 2. Masukkan data ke inputan di atas
+    document.getElementById('nama').value = nota.nama;
+    document.getElementById('harga').value = nota.harga;
+
+    // 3. Masukkan rincian berat (kita reset dulu barisnya)
+    const areaBerat = document.getElementById('area-berat');
+    areaBerat.innerHTML = '<label class="label-small">INPUT BERAT (KG)</label>'; // Reset label
+    
+    const beratArr = nota.rincian.split(' + ');
+    beratArr.forEach((b, index) => {
+        const val = b.replace(' Kg', '').trim();
+        const div = document.createElement('div');
+        div.style.marginTop = index === 0 ? "0" : "8px";
+        div.innerHTML = `<input type="number" class="input-berat" value="${val}" oninput="hitungOtomatis()">`;
+        areaBerat.appendChild(div);
+    });
+
+    // 4. Ubah Tombol Simpan jadi Tombol Update (Ganti ✅ pakai SVG Centang)
+    const btnSimpan = document.querySelector('.btn-save');
+    btnSimpan.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span>Update Nota</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+    `;
+    btnSimpan.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8)"; 
+    btnSimpan.onclick = function() { prosesUpdateNota(id); };
+}
+
+function prosesUpdateNota(id) {
+    const nama = document.getElementById('nama').value.trim();
+    const harga = parseFloat(document.getElementById('harga').value) || 0;
+    const inputs = document.querySelectorAll('.input-berat');
+
+    if (!nama || harga <= 0) { showToast("⚠️ Lengkapi data!"); return; }
+
+    let rincianArr = [];
+    let totalBerat = 0;
+    inputs.forEach(i => {
+        let v = parseFloat(i.value) || 0;
+        if (v > 0) { rincianArr.push(v); totalBerat += v; }
+    });
+
+    // Update data di array database
+    const index = database.findIndex(n => n.id === id);
+    if (index !== -1) {
+        database[index].nama = nama;
+        database[index].harga = harga;
+        database[index].rincian = rincianArr.join(' + ');
+        database[index].totalBerat = Math.round (totalBerat);
+        database[index].totalBayar = Math.round (totalBerat * harga);
+
+        // Simpan ke LocalStorage
+        localStorage.setItem('database_karet_final', JSON.stringify(database));
+        
+        // Kembalikan tombol ke semula
+        resetFormUpdate();
+        
+        showToast("Nota Berhasil Diupdate! ✨");
+        tampilkanData(database);
+    }
+}
+
+function resetFormUpdate() {
+    const btnSimpan = document.querySelector('.btn-save');
+    btnSimpan.innerText = "Simpan Nota";
+    btnSimpan.style.background = "linear-gradient(135deg, #10b981, #059669)";
+    btnSimpan.onclick = simpanNota; // Kembalikan ke fungsi simpan awal
+    
+    document.getElementById('nama').value = '';
+    document.getElementById('harga').value = '';
+    // Kembalikan input berat jadi 2 baris kosong
+    const areaBerat = document.getElementById('area-berat');
+    areaBerat.innerHTML = `
+        <label class="label-small">INPUT BERAT (KG)</label>
+        <div class="weight-grid">
+            <input type="number" class="input-berat" placeholder="0" oninput="hitungOtomatis()">
+            <input type="number" class="input-berat" placeholder="0" oninput="hitungOtomatis()">
+        </div>
+    `;
+    idSedangDiedit = null;
+}
+
+function bukaPanduan() {
+    // Update status lisensi di dalam panduan secara otomatis
+    const statusTeks = document.getElementById('status-lisensi-teks');
+    if (isPremium) {
+        statusTeks.innerText = "PREMIUM ACTIVE";
+        statusTeks.style.background = "#ecfdf5";
+        statusTeks.style.color = "#059669";
+        statusTeks.style.borderColor = "#10b981";
+    } else {
+        statusTeks.innerText = "VERSI GRATIS";
+        statusTeks.style.background = "#fee2e2";
+        statusTeks.style.color = "#ef4444";
+        statusTeks.style.borderColor = "#fecaca";
+    }
+
+    document.getElementById('halamanPanduan').style.display = 'block';
+    document.body.style.overflow = 'hidden'; 
+}
+
+    function tutupPanduan() {
+        document.getElementById('halamanPanduan').style.display = 'none';
+        // Mengembalikan scroll body
+        document.body.style.overflow = 'auto';
+    }
+
+    /* ==================================================
+       FUNGSI KALKULATOR BARU
+       ================================================== */
+    
+    function bukaKalkulator(id) {
+        currentCalcId = id;
+        const modal = document.getElementById('modal-kalkulator');
+        const nota = database.find(n => n.id === id);
+        
+        // Reset display
+        document.getElementById('calc-display').value = '0';
+        
+        // Isi label jika sudah ada sebelumnya, atau default
+        const labelInput = document.getElementById('calc-label-input');
+        if (nota && nota.calcLabel) {
+            labelInput.value = nota.calcLabel;
+        } else {
+            labelInput.value = 'Kalkulator digunakan';
+        }
+        
+        modal.classList.add('active');
+    }
+
+    function tutupKalkulator() {
+        document.getElementById('modal-kalkulator').classList.remove('active');
+        currentCalcId = null;
+    }
+
+    function ketikKalkulator(val) {
+        const display = document.getElementById('calc-display');
+        let currentText = display.value;
+
+        // Ganti 0 awal dengan angka baru
+        if (currentText === '0' && !isNaN(val)) {
+            display.value = val;
+        } else {
+            display.value += val;
+        }
+    }
+
+    function hapusKalkulator() {
+        const display = document.getElementById('calc-display');
+        let currentText = display.value;
+        if (currentText.length > 1) {
+            display.value = currentText.slice(0, -1);
+        } else {
+            display.value = '0';
+        }
+    }
+
+    function resetKalkulator() {
+        document.getElementById('calc-display').value = '0';
+    }
+
+    function hitungKalkulator() {
+        const display = document.getElementById('calc-display');
+        try {
+            // Evaluasi matematika sederhana (aman di sini karena input dari UI sendiri)
+            // ParseFloat untuk menghindari string aneh
+            let hasil = eval(display.value);
+            if (hasil === undefined || isNaN(hasil)) {
+                display.value = "Error";
+            } else {
+                display.value = hasil;
+            }
+        } catch (e) {
+            display.value = "Error";
+        }
+    }
+
+    function simpanHasilKalkulator() {
+        const display = document.getElementById('calc-display');
+        const label = document.getElementById('calc-label-input').value || 'Kalkulator digunakan';
+        const hasil = parseFloat(display.value);
+
+        if (isNaN(hasil) || hasil === 0) {
+            showToast("⚠️ Hasil tidak valid!");
+            return;
+        }
+
+        // Update Database
+        const index = database.findIndex(n => n.id === currentCalcId);
+        if (index !== -1) {
+            database[index].calcLabel = label;
+            database[index].calcResult = hasil;
+            
+            localStorage.setItem('database_karet_final', JSON.stringify(database));
+            tampilkanData(database);
+            showToast("Hasil kalkulator disimpan! 🧮");
+            tutupKalkulator();
+        }
+    }
+
+    /* ====== FUNGSI HAPUS NOTA ====== */
+/* VARIABEL BANTUAN UNTUK ID YANG AKAN DIHAPUS */
+let idHapusSementera = null;
+
+/* TAHAP 1: MEMBUKA MODAL DAN MENANYAKAN KONFIRMASI */
+function hapusNota(id) {
+    const n = database.find(nota => nota.id === id);
+    if (!n) return;
+
+    idHapusSementera = id; // Simpan ID di memori sementara
+    
+    // Update teks modal agar lebih personal
+    document.getElementById('teks-hapus').innerHTML = `Yakin ingin menghapus nota milik <strong>${n.nama}</strong>?<br><small style="color:#94a3b8">Data ini akan hilang permanen.</small>`;
+    
+    // Munculkan modal
+    document.getElementById('modal-konfirmasi-hapus').style.display = 'flex';
+    
+    // Pasang aksi ke tombol konfirmasi di dalam modal
+    document.getElementById('btn-konfirmasi-hapus-fix').onclick = prosesHapusNota;
+}
+
+/* TAHAP 2: EKSEKUSI PENGHAPUSAN SETELAH TOMBOL DIKLIK */
+function prosesHapusNota() {
+    if (idHapusSementera) {
+        // Filter database untuk membuang ID yang dipilih
+        database = database.filter(n => n.id !== idHapusSementera);
+        
+        // Update LocalStorage
+        localStorage.setItem('database_karet_final', JSON.stringify(database));
+        
+        // Refresh tampilan & statistik
+        tampilkanData(database);
+        
+        // Beri notifikasi
+        showToast("Nota Berhasil Dihapus! 🗑️");
+        
+        // Tutup modal
+        tutupModalHapus();
+    }
+}
+
+/* FUNGSI TUTUP MODAL HAPUS */
+function tutupModalHapus() {
+    document.getElementById('modal-konfirmasi-hapus').style.display = 'none';
+    idHapusSementera = null; // Reset ID sementara
+}
+
+</script>
+<div id="modal-premium" style="display:none; position:fixed; inset:0; z-index:10000; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-bg-click" onclick="tutupModalPremium()" style="background: rgba(15, 23, 42, 0.9);"></div>
+    <div class="kertas-struk-besar" style="text-align:center; padding:30px; border-top: 5px solid #f59e0b;">
+        <div style="font-size: 50px; margin-bottom: 15px;">🔒</div>
+        <h2 id="premium-title" style="margin:0; font-size: 1.4rem; color:#1e293b;">Fitur Premium</h2>
+        <p style="font-size:14px; color:#64748b; margin-top:10px; line-height: 1.5;">
+            Fitur ini hanya tersedia untuk pengguna <strong>Lisensi Premium</strong> Gun Original Project.
+        </p>
+        
+        <div style="background: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 16px; margin: 20px 0; text-align: left;">
+            <p style="font-size: 12px; color: #b45309; font-weight: 800; margin-bottom: 8px; text-transform: uppercase;">Keuntungan Premium:</p>
+            <ul style="margin: 0; padding-left: 20px; font-size: 12px; color: #92400e; display: grid; gap: 5px;">
+                <li>Buka fitur Edit & Kalkulator</li>
+                <li>Bagikan nota ke WhatsApp</li>
+                <li>Hapus Watermark Struk</li>
+                <li>Support Pengembangan Aplikasi</li>
+            </ul>
+        </div>
+
+        <div class="struk-actions-center">
+            <button class="btn-close-modal" onclick="tutupModalPremium()">Nanti Saja</button>
+            <button class="btn-print-modal" style="background: #f59e0b; box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);" onclick="hubungiAdmin()">
+                Beli Lisensi
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-konfirmasi-hapus" style="display:none; position:fixed; inset:0; z-index:10001; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-bg-click" onclick="tutupModalHapus()" style="background: rgba(15, 23, 42, 0.8);"></div>
+    <div class="kertas-struk-besar" style="text-align:center; padding:30px; border-top: 5px solid #ef4444; transform: scale(1);">
+        <div style="font-size: 50px; margin-bottom: 15px;">🗑️</div>
+        <h2 style="margin:0; font-size: 1.4rem; color:#1e293b;">Hapus Nota?</h2>
+        <p id="teks-hapus" style="font-size:14px; color:#64748b; margin-top:10px; line-height: 1.5;">
+            Data yang dihapus tidak dapat dikembalikan. Yakin ingin menghapus nota ini?
+        </p>
+
+        <div class="struk-actions-center" style="margin-top: 25px;">
+            <button class="btn-close-modal" onclick="tutupModalHapus()">Batal</button>
+            <button id="btn-konfirmasi-hapus-fix" class="btn-print-modal" style="background: #ef4444; box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+  </html>
