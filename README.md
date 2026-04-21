@@ -3,7 +3,7 @@
 
 ![Gun Original Project](https://img.shields.io/badge/gun-ORIGINAL_PROJECT-003366?style=for-the-badge&logo=appveyor&logoColor=white&labelColor=00529b)
 
-[![Version](https://img.shields.io/badge/version-1.0.0-emerald)](https://ragilgunawan.my.id)
+[![Version](https://img.shields.io/badge/version-1.1.4-emerald)](https://ragilgunawan.my.id)
 [![Tech](https://img.shields.io/badge/Tech-HTML5%20%7C%20TailwindCSS%20%7C%20JS-blue)](https://tailwindcss.com)
 
 **Nota Karet Digital Pro** adalah aplikasi berbasis web (PWA-ready) yang dirancang khusus untuk mempermudah pencatatan hasil timbangan karet bagi pengepul atau petani. Aplikasi ini menggantikan pencatatan manual dengan sistem digital yang akurat, lengkap dengan fitur cetak struk ke printer Bluetooth.
